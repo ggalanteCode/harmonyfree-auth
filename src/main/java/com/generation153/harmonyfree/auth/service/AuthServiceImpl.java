@@ -1,5 +1,7 @@
 package com.generation153.harmonyfree.auth.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ import com.generation153.harmonyfree.auth.exception.DuplicateResourceException;
 import com.generation153.harmonyfree.auth.repository.RoleRepository;
 import com.generation153.harmonyfree.auth.repository.UserRepository;
 import com.generation153.harmonyfree.auth.security.enums.EnumRoles;
+import com.generation153.harmonyfree.auth.security.enums.EnumStatus;
 import com.generation153.harmonyfree.auth.security.service.JwtService;
 
 import jakarta.transaction.Transactional;
@@ -59,6 +62,12 @@ public class AuthServiceImpl implements AuthService {
 
 		// Crittografia della password
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		// imposta lo status del nuovo utente, che inizialmente è ACTIVE
+		user.setStatus(EnumStatus.ACTIVE);
+		
+		//imposta la data di creazione dell'utente
+		user.setCreatedAt(LocalDateTime.now());
 
 		// Assegna i ruoli
 		for (EnumRoles roleName : roleNames) {

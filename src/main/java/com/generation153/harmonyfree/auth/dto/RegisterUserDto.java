@@ -23,14 +23,6 @@ public class RegisterUserDto {
 			)
 	private String email;
 
-	@NotBlank(message = "Il nome è obbligatorio")
-	@Size(min = 2, max = 150, message = "Il nome deve contenere da 2 a 150 caratteri")
-	private String firstName;
-
-	@NotBlank(message = "Il cognome è obbligatorio")
-	@Size(min = 2, max = 150, message = "Il cognome deve contenere da 2 a 150 caratteri")
-	private String lastName;
-
 	@NotBlank(message = "La password è obbligatoria")
 	@Size(min = 8, max = 100, message = "La password deve contenere almeno 8 caratteri")
 	private String password;
