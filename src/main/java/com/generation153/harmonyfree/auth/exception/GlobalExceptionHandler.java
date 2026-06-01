@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.generation153.harmonyfree.auth.dto.ApiErrorDto;
 
-
-
-
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -61,20 +57,6 @@ public class GlobalExceptionHandler {
         logger.error("Errore interno del server", ex);
         return buildError("Errore interno del server", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public ResponseEntity<String> handleBadCredentials(BadCredentialsException ex) {
-//        return ResponseEntity
-//                .status(HttpStatus.UNAUTHORIZED)
-//                .body("Email o password non validi");
-//    }
-//    
-//    @ExceptionHandler(UsernameNotFoundException.class)
-//    public ResponseEntity<String> handleUserNotFound(UsernameNotFoundException ex) {
-//        return ResponseEntity
-//                .status(HttpStatus.NOT_FOUND)
-//                .body(ex.getMessage());
-//    }
 
     private ResponseEntity<ApiErrorDto> buildError(String message, HttpStatus status) {
 
