@@ -1,13 +1,17 @@
 package com.generation153.harmonyfree.auth.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.generation153.harmonyfree.auth.security.enums.EnumStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,6 +43,16 @@ public class User {
 	@JsonIgnore // la password non viene né letta né scritta nel JSON
 	@Column(nullable = false)
 	private String password;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private EnumStatus status;
+	
+	@Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+	private LocalDateTime updatedAt;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
