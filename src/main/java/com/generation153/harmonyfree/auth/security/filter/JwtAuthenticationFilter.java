@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.generation153.harmonyfree.auth.security.service.JwtService;
+import com.generation153.harmonyfree.auth.security.model.CustomUserPrincipal;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -50,20 +51,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
+        	Integer userId = jwtService.extractAuthUserId(token);
             List<String> roles = jwtService.extractRoles(token);
 
             List<GrantedAuthority> authorities = roles.stream()
                     .map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role))
                     .toList();
-            /*
-             * List<GrantedAuthority> authorities = roles.stream()
-             *         .map(SimpleGrantedAuthority::new)
-             *         .toList();
-             */
+            
+            CustomUserPrincipal principal = new CustomUserPrincipal(userId, email);
 
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(
-                            email,
+                            principal,
                             null,
                             authorities
                     );

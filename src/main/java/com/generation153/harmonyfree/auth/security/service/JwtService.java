@@ -75,6 +75,24 @@ public class JwtService {
 				.parseSignedClaims(token)
 				.getPayload();
 	}
+	
+	public Integer extractAuthUserId(String token) {
+		
+		Object idClaim = extractAllClaims(token).get("id");
+        
+        if (idClaim instanceof Integer value) {
+            return value;
+        }
+        if (idClaim instanceof Long value) {
+            return value.intValue();
+        }
+        if (idClaim instanceof String value) {
+            return Integer.parseInt(value);
+        }
+
+        throw new RuntimeException("Claim id non valido");
+		
+	}
 
 	// EMAIL (SUBJECT)
 	public String extractEmail(String token) {
