@@ -40,12 +40,6 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	@Column(name = "first_name", nullable = false, length = 150)
-	private String firstName;
-
-	@Column(name = "last_name", nullable = false, length = 150)
-	private String lastName;
-
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
 	joinColumns = { 
@@ -93,13 +87,6 @@ public class User {
 	public void clearRoles() {
 	    this.roles.clear();
 	    log.info("Tutti i ruoli rimossi dall'utente {}", email);
-	}
-	
-	/**
-	 * Restituisce il nome completo dell'utente.
-	 */
-	public String getFullName() {
-	    return firstName + " " + lastName;
 	}
 	
 	// ------------------------------- EQUALS & HASHCODE ----------------------------------
