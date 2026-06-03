@@ -12,6 +12,7 @@ import com.generation153.harmonyfree.auth.entity.Role;
 import com.generation153.harmonyfree.auth.entity.User;
 import com.generation153.harmonyfree.auth.exception.BadRequestException;
 import com.generation153.harmonyfree.auth.exception.DuplicateResourceException;
+import com.generation153.harmonyfree.auth.exception.ResourceNotFoundException;
 import com.generation153.harmonyfree.auth.repository.RoleRepository;
 import com.generation153.harmonyfree.auth.repository.UserRepository;
 import com.generation153.harmonyfree.auth.security.enums.EnumRoles;
@@ -83,9 +84,21 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public String login(String email, String password) {
+		
+		User user = userRepository.findByEmail(email)
+	            .orElseThrow(() -> new ResourceNotFoundException("Utente non trovato"));
+
+		if (user.getStatus() == EnumStatus.SUSPENDED) {
+		    throw new BadRequestException("Account sospeso");
+		}
+
+		if (user.getStatus() == EnumStatus.BANNED) {
+		    throw new BadRequestException("Account bannato");
+		}
+		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(email, password)
-				);
+		);
 
 		return jwtService.generateToken(authentication);
 	}
