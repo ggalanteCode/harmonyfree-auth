@@ -3,6 +3,7 @@ package com.generation153.harmonyfree.auth.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,9 @@ import com.generation153.harmonyfree.auth.exception.BadRequestException;
 import com.generation153.harmonyfree.auth.service.AuthService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -31,6 +34,8 @@ public class AuthController {
 	
 	@PostMapping("/register") 
 	public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDto dto) {
+		
+		log.info("AuthController: register: REGISTER CALLED");
 		
 		// Validazione logica
 		if (!dto.getPassword().equals(dto.getConfirmPassword())) {
