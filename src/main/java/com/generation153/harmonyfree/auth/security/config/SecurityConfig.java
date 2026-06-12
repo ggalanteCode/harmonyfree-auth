@@ -3,6 +3,7 @@ package com.generation153.harmonyfree.auth.security.config;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,9 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    
+    @Value("${app.cors.allowed-origin}")
+	private String allowedOrigin;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder,
 			JwtAuthenticationFilter jwtAuthenticationFilter) {
@@ -77,7 +81,8 @@ public class SecurityConfig {
 
     	configuration.setAllowedOrigins(Arrays.asList(
     	        "http://localhost:5500",
-    	        "http://192.168.1.107:5500"
+    	        "http://192.168.1.107:5500",
+    	        allowedOrigin
     	    ));
 
         configuration.setAllowedMethods(List.of(
